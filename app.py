@@ -10,7 +10,7 @@ st.set_page_config(page_title="Sketch to Photo", page_icon="🎨")
 @st.cache_resource
 def load_model():
     # 🔥 CHANGE THIS TO YOUR GITHUB RELEASE URL
-    MODEL_URL = "https://github.com/Mustehsan-Nisar-Rao/Cyclic-GAN/releases/tag/v.1/model.pt"
+    MODEL_URL = "https://github.com/Mustehsan-Nisar-Rao/Cyclic-GAN/releases/tag/v.1/cyclegan_best_model.pth"
     
     with st.spinner("Loading model..."):
         response = requests.get(MODEL_URL)
