@@ -55,7 +55,7 @@ class Generator(nn.Module):
 @st.cache_resource
 def load_model():
     # 🔥 CHANGE TO YOUR ACTUAL URL
-    MODEL_URL = "https://github.com/Mustehsan-Nisar-Rao/Cyclic-GAN/releases/tag/v.1/cyclegan_best_model.pth"
+    MODEL_URL = "https://github.com/Mustehsan-Nisar-Rao/Cyclic-GAN/releases/download/v.1/cyclegan_best_model.pth"
     
     with st.spinner("🔄 Loading model (245 MB)..."):
         # Download checkpoint
