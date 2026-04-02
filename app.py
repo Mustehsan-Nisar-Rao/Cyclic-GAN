@@ -4,23 +4,19 @@ from PIL import Image
 import numpy as np
 import requests
 from io import BytesIO
-import time
 
-st.set_page_config(page_title="Sketch to Photo - CycleGAN", page_icon="🎨")
+st.set_page_config(page_title="Sketch to Photo", page_icon="🎨")
 
-# Download model from Hugging Face release
 @st.cache_resource
 def load_model():
-    # 🔥 CHANGE THIS TO YOUR ACTUAL RELEASE URL
-    MODEL_URL = "https://github.com/Mustehsan-Nisar-Rao/Cyclic-GAN/releases/tag/v.1/model.pt"
+    # 🔥 CHANGE THIS TO YOUR GITHUB RELEASE URL
+    MODEL_URL = "https://github.com/YOUR_USERNAME/cyclegan-sketch-to-photo/releases/download/v1.0/model.pt"
     
-    with st.spinner("🔄 Loading model..."):
+    with st.spinner("Loading model..."):
         response = requests.get(MODEL_URL)
         with open("/tmp/model.pt", "wb") as f:
             f.write(response.content)
-        model = torch.jit.load("/tmp/model.pt", map_location='cpu')
-        model.eval()
-        return model
+        return torch.jit.load("/tmp/model.pt", map_location='cpu')
 
 def preprocess(image):
     image = image.resize((128, 128))
@@ -33,7 +29,6 @@ def postprocess(tensor):
     return Image.fromarray((tensor * 255).astype(np.uint8))
 
 st.title("🎨 Sketch to Photo Translation")
-st.markdown("Powered by CycleGAN")
 
 model = load_model()
 
@@ -46,7 +41,7 @@ if uploaded:
     with col1:
         st.image(sketch, caption="Input Sketch")
     
-    with st.spinner("Generating photo..."):
+    with st.spinner("Generating..."):
         input_tensor = preprocess(sketch)
         with torch.no_grad():
             output = model(input_tensor)
@@ -57,11 +52,4 @@ if uploaded:
     
     buf = BytesIO()
     photo.save(buf, format="PNG")
-    st.download_button("📥 Download Photo", buf.getvalue(), "photo.png")
-
-st.sidebar.markdown("""
-**Model:** CycleGAN  
-**Training:** 50 epochs on Sketchy dataset  
-**Input/Output:** 128×128 pixels  
-**Categories:** 125 classes
-""")
+    st.download_button("Download", buf.getvalue(), "photo.png")
